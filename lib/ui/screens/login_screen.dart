@@ -1,5 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:restofood_api/core/utils/toast_utils.dart';
+import 'package:restofood_api/ui/widgets/input_field.dart';
+import 'package:restofood_api/ui/widgets/primary_button.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -7,10 +11,9 @@ class LoginScreen extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: LoginBody(),
-          )
-      ),
+          body: SingleChildScrollView(
+        child: LoginBody(),
+      )),
     );
   }
 }
@@ -19,8 +22,13 @@ class LoginBody extends StatelessWidget {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
 
-  void Login(BuildContext context){
-
+  void login(BuildContext context) {
+    if(usernameController.text.isNotEmpty && passwordController.text.isNotEmpty){
+      
+      Navigator.pushNamedAndRemoveUntil(context, "/dashboard", (Route<dynamic>routes)=>false);
+    } else {
+      ToastUtils.show("Silahkan isi semua field");
+    }
   }
 
   @override
@@ -29,8 +37,56 @@ class LoginBody extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/2.5,
+          height: MediaQuery.of(context).size.height / 2.5,
           color: Colors.orange,
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.fastfood, size: 40, color: Colors.white),
+                SizedBox(height: 10),
+                Text("Restofood",
+                    style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
+        ),
+        //field Login
+        Padding(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 30),
+          child: Column(
+            children: <Widget>[
+              //Username
+              InputField(
+                action: TextInputAction.done,
+                type: TextInputType.text,
+                controller: usernameController,
+                hintText: "Username",
+              ),
+              SizedBox(height: 10),
+              InputField(
+                action: TextInputAction.done,
+                type: TextInputType.text,
+                controller: passwordController,
+                hintText: "Password",
+                secureText: true,
+              ),
+              SizedBox(height: 15,),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 45,
+                child: PrimaryButton(
+                  color: Colors.orange,
+                  text: "Login",
+                  onClick: () => login(context),
+                ),
+              )
+            ],
+          ),
         )
       ],
     );

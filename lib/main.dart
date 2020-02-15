@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restofood_api/ui/screens/dashboard_screen.dart';
 import 'package:restofood_api/ui/screens/home_screen.dart';
 import 'package:restofood_api/ui/screens/login_screen.dart';
 
@@ -18,10 +19,13 @@ class MyApp extends StatelessWidget {
       ),
 
       
-      home: HomeScreen(),
+
       routes: {
-        "/home" : (context) => HomeScreen()
+        // "/home" : (context) => HomeScreen()
+        "/dashboard" : (context) => DashBoardScreen()
       },
+      // home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
